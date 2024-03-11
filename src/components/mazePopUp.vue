@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue';
+// @ts-ignore
 import { MG } from '../utils/mg'
 let mg: any = null;
-// const showPopup = ref(false);
 const emits = defineEmits(['close']);
 const props = defineProps({
   showPopup: {
@@ -27,11 +27,11 @@ const props = defineProps({
   }
 });
 function new_mg() {
-    let w = parseInt(document.getElementById("mg_width").value) || 20,
-        h = parseInt(document.getElementById("mg_height").value) || 20;
+    let w = parseInt((document.getElementById("mg_width") as any).value) || 20,
+        h = parseInt((document.getElementById("mg_height") as any).value) || 20;
     mg.set({width: w, height: h}).create().show();
-    document.getElementById("mg_width").value = w;
-    document.getElementById("mg_height").value = h;
+    (document.getElementById("mg_width") as any).value = w;
+    (document.getElementById("mg_height") as any).value = h;
 }
 
 onMounted(() => {

@@ -13,7 +13,7 @@ svn checkout http://sansi.googlecode.com/svn/trunk/ sansi-read-only
 */
 
 // 迷宫类
-export function MG(ob, w, h) {
+function MG(ob, w, h) {
 	this.ob = document.getElementById(ob);
 	console.log(this.ob);
 	this.w = w || 20;
@@ -506,3 +506,6 @@ MG_Me.prototype = {
 		}
 	}
 };
+export {
+	MG
+}

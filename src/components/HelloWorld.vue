@@ -78,7 +78,9 @@
 import { onMounted, ref, watch } from 'vue';
 import * as tf from '@tensorflow/tfjs';
 import * as tfd from '@tensorflow/tfjs-data';
+// @ts-ignore
 import { ControllerDataset } from '../utils/controller_dataset';
+// @ts-ignore
 import { drawThumb } from '../utils/ui';
 import mazePopup from './mazePopUp.vue';
 import { throttle } from 'lodash';
@@ -89,7 +91,7 @@ const classNum = ref(4);
 const isPredicting = ref(false);
 let controllerDataset = new ControllerDataset(classNum.value);
 let truncatedMobileNet: any = null;
-let model = null;
+let model: any = null;
 let webcam: any = null;
 const isAddingImg = ref(false);
 const imgCounts = ref([0, 0, 0, 0]);
@@ -122,7 +124,7 @@ function reInit(val: number) {
   imgCounts.value = new Array(classNum.value).fill(0);
   classIdResult.value = -1;
   controls.value.forEach((label) => {
-    const canvas = document.getElementById(label + '-thumb');
+    const canvas: any = document.getElementById(label + '-thumb');
     if (canvas) {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     }
@@ -220,8 +222,9 @@ async function train() {
     batchSize: BatchSize,
     epochs: epochs.value,
     callbacks: {
-      onBatchEnd: async (batch, logs) => {
+      onBatchEnd: async (batch: any, logs: any) => {
         logLoss.value = logs.loss.toFixed(5);
+        console.log('batch', batch);
         // ui.trainStatus('Loss: ' + logs.loss.toFixed(5));
       }
     }
@@ -259,6 +262,7 @@ async function predict() {
 
 async function handlerUp(label: string) {
   isAddingImg.value = false;
+  console.log('handlerUp', label);
 }
 async function getImage() {
   const img = await webcam.capture();
@@ -274,7 +278,8 @@ onMounted(async () => {
   console.log(controllerDataset);
   tf.setBackend('webgl');
   try {
-    webcam = await tfd.webcam(document.getElementById('webcam'));
+    const webCamDom: any = document.getElementById('webcam');
+    webcam = await tfd.webcam(webCamDom);
     await webcam.setup();
     console.log('webcam', webcam);
   } catch (e) {
